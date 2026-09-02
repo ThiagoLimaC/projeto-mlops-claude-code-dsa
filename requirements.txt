@@ -1,0 +1,13 @@
+# Dependencias de runtime do dsa_mlops_project.
+# Fonte de verdade: pyproject.toml. Este arquivo existe para compatibilidade
+# com fluxos baseados em pip (ex.: `pip install -r requirements.txt`).
+# Para dependencias de desenvolvimento use: pip install -e ".[dev]"
+
+scikit-learn>=1.5
+pandas>=2.2
+numpy>=2.0
+mlflow>=2.16
+dvc>=3.55
+pyyaml>=6.0
+joblib>=1.4
+matplotlib>=3.9

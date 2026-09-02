@@ -1,0 +1,20 @@
+# Configuracao central do dsa_mlops_project.
+# Os valores de dataset/alvo serao preenchidos quando o problema de
+# classificacao for definido nas proximas etapas.
+
+data:
+  raw_path: data/raw/dataset.csv
+  target: target
+  test_size: 0.2
+  random_state: 42
+
+model:
+  algorithm: random_forest
+  params:
+    n_estimators: 200
+    max_depth: null
+    random_state: 42
+
+mlflow:
+  experiment_name: dsa_mlops_project
+  tracking_uri: ./mlruns

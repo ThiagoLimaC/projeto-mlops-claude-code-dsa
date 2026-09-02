@@ -1,0 +1,55 @@
+[project]
+name = "dsa_mlops_project"
+version = "0.1.0"
+description = "Projeto completo de MLOps para um problema de classificacao, construido de forma AI-first com Claude Code (Data Science Academy)."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [
+    { name = "Thiago Lima" },
+]
+keywords = ["mlops", "machine-learning", "classification", "mlflow", "dvc"]
+
+dependencies = [
+    "scikit-learn>=1.5",
+    "pandas>=2.2",
+    "numpy>=2.0",
+    "mlflow>=2.16",
+    "dvc>=3.55",
+    "pyyaml>=6.0",
+    "joblib>=1.4",
+    "matplotlib>=3.9",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.3",
+    "pytest-cov>=5.0",
+    "ruff>=0.6",
+]
+
+[project.urls]
+Repository = "https://github.com/ThiagoLimaC/projeto-mlops-claude-code-dsa"
+
+[tool.uv]
+package = false
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
+addopts = "-ra -q --cov=src --cov-report=term-missing"
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "N", "UP", "B", "D"]
+ignore = ["D203", "D213"]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["D"]

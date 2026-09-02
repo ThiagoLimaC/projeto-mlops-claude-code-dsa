@@ -1,0 +1,30 @@
+# Pipeline de MLOps do dsa_mlops_project.
+# Reproduza com: dvc repro   |   Visualize com: dvc dag
+
+stages:
+  prepare:
+    cmd: python src/preprocess.py
+    deps:
+      - src/preprocess.py
+      - data/raw
+    outs:
+      - data/processed
+
+  train:
+    cmd: python src/train.py
+    deps:
+      - src/train.py
+      - data/processed
+    params:
+      - model
+    outs:
+      - models/model.pkl
+
+  evaluate:
+    cmd: python src/evaluate.py
+    deps:
+      - src/evaluate.py
+      - models/model.pkl
+    metrics:
+      - reports/metrics.json:
+          cache: false

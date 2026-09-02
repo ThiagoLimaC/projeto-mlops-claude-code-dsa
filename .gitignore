@@ -1,0 +1,98 @@
+# ---------------------------------------------------------------------------
+# Python
+# ---------------------------------------------------------------------------
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+dist/
+*.egg-info/
+.eggs/
+.installed.cfg
+*.egg
+
+# ---------------------------------------------------------------------------
+# Ambientes virtuais / gerenciadores
+# ---------------------------------------------------------------------------
+.venv/
+venv/
+env/
+ENV/
+.python-version
+
+# ---------------------------------------------------------------------------
+# Testes / cobertura / cache de ferramentas
+# ---------------------------------------------------------------------------
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+.coverage.*
+htmlcov/
+coverage.xml
+
+# ---------------------------------------------------------------------------
+# Jupyter
+# ---------------------------------------------------------------------------
+.ipynb_checkpoints/
+notebooks/*.nbconvert.ipynb
+
+# ---------------------------------------------------------------------------
+# MLflow
+# ---------------------------------------------------------------------------
+mlruns/
+mlartifacts/
+mlflow.db
+*.mlflow
+
+# ---------------------------------------------------------------------------
+# DVC
+# O `dvc init` cria .dvc/.gitignore (ignora .dvc/cache e .dvc/tmp).
+# O `dvc repro` adiciona automaticamente as saidas do pipeline ao .gitignore
+# do diretorio correspondente. Os padroes abaixo sao reforco/documentacao.
+# ---------------------------------------------------------------------------
+.dvc/cache/
+.dvc/tmp/
+.dvc/config.local
+
+# Dados versionados pelo DVC (mantem apenas os .gitkeep e os .dvc)
+/data/raw/*
+!/data/raw/.gitkeep
+!/data/raw/*.dvc
+
+# Saidas do pipeline (estagios prepare/train/evaluate do dvc.yaml)
+# reports/metrics.json e mantido no git (metrica do DVC, cache: false).
+/data/processed
+/models/model.pkl
+/models/confusion_matrix.png
+/reports/confusion_matrix.png
+
+# ---------------------------------------------------------------------------
+# Artefatos de modelo (versionados via DVC/MLflow, nao via git)
+# ---------------------------------------------------------------------------
+/models/*
+!/models/.gitkeep
+*.pkl
+*.joblib
+*.onnx
+*.h5
+
+# ---------------------------------------------------------------------------
+# Dados brutos e processados (formatos comuns)
+# ---------------------------------------------------------------------------
+*.csv
+*.parquet
+*.feather
+*.xlsx
+*.json.gz
+
+# ---------------------------------------------------------------------------
+# Sistema operacional / IDE
+# ---------------------------------------------------------------------------
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp

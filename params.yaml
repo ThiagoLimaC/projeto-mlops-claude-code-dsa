@@ -1,0 +1,10 @@
+# Parametros do pipeline de MLOps, consumidos pelos estagios do dvc.yaml.
+# Alterar um valor aqui invalida o cache do estagio correspondente no `dvc repro`.
+
+model:
+  n_estimators: 100
+  max_depth: 10
+
+data:
+  test_size: 0.2
+  random_state: 42
