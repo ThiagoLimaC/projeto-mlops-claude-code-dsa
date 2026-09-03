@@ -1,0 +1,20 @@
+{
+  "status": "success",
+  "source": "data/raw/iris.csv",
+  "rows": 150,
+  "columns": {
+    "sepal length (cm)": "float64",
+    "sepal width (cm)": "float64",
+    "petal length (cm)": "float64",
+    "petal width (cm)": "float64",
+    "target": "int64"
+  },
+  "null_counts": {
+    "sepal length (cm)": 0,
+    "sepal width (cm)": 0,
+    "petal length (cm)": 0,
+    "petal width (cm)": 0,
+    "target": 0
+  },
+  "validated_at": "2026-09-03T21:32:02+00:00"
+}

@@ -8,10 +8,14 @@ stages:
       md5: 257324e9126577a9f471b400cfd4381f.dir
       size: 2865
       nfiles: 3
+    - path: reports/validation.json
+      hash: md5
+      md5: 92652cb96ed87c260eabbeb39775e698
+      size: 454
     - path: src/preprocess.py
       hash: md5
-      md5: a34465120af34b049d5f93f2ed1bd183
-      size: 5208
+      md5: 4bae829a47333462877965004a507633
+      size: 5852
     outs:
     - path: data/processed
       hash: md5
@@ -28,25 +32,33 @@ stages:
       nfiles: 2
     - path: src/train.py
       hash: md5
-      md5: 6aee41120aedd02cb8815cf396e1cc26
-      size: 9108
+      md5: b0e9e316b5fde947762441fe5bd4d3ee
+      size: 12680
     params:
       params.yaml:
         model:
-          n_estimators: 100
-          max_depth: 10
+          type: random_forest
+          random_forest:
+            n_estimators: 100
+            max_depth: 10
+          xgboost:
+            n_estimators: 200
+            max_depth: 6
+            learning_rate: 0.1
+            subsample: 0.9
+            colsample_bytree: 0.9
     outs:
     - path: models/model.pkl
       hash: md5
-      md5: 1acb15fd57cc921290a1ec7ae6acf1bb
-      size: 167761
+      md5: 43b758b246bac4de043afd4e6a3e51f9
+      size: 168081
   evaluate:
     cmd: python src/evaluate.py
     deps:
     - path: models/model.pkl
       hash: md5
-      md5: 1acb15fd57cc921290a1ec7ae6acf1bb
-      size: 167761
+      md5: 43b758b246bac4de043afd4e6a3e51f9
+      size: 168081
     - path: src/evaluate.py
       hash: md5
       md5: 7b8e19d95bfb09cfb91f0be67d3fc160
@@ -56,3 +68,19 @@ stages:
       hash: md5
       md5: 5546c3add45742779c67be797be7ae0b
       size: 100
+  validate:
+    cmd: python src/validate.py
+    deps:
+    - path: data/raw/iris.csv
+      hash: md5
+      md5: 4d301abed5efe50eccda350cde38e0eb
+      size: 2777
+    - path: src/validate.py
+      hash: md5
+      md5: d7b6fffc483e84b9216c069ced548ec4
+      size: 4576
+    outs:
+    - path: reports/validation.json
+      hash: md5
+      md5: 92652cb96ed87c260eabbeb39775e698
+      size: 454

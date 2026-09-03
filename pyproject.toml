@@ -12,8 +12,10 @@ keywords = ["mlops", "machine-learning", "classification", "mlflow", "dvc"]
 
 dependencies = [
     "scikit-learn>=1.5",
+    "xgboost>=2.1",
     "pandas>=2.2",
     "numpy>=2.0",
+    "pandera>=0.20",
     "mlflow>=2.16",
     "dvc>=3.55",
     "pyyaml>=6.0",

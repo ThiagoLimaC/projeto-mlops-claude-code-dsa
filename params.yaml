@@ -2,8 +2,19 @@
 # Alterar um valor aqui invalida o cache do estagio correspondente no `dvc repro`.
 
 model:
-  n_estimators: 100
-  max_depth: 10
+  # Modelo ativo. Valores possiveis: random_forest | xgboost
+  type: random_forest
+
+  random_forest:
+    n_estimators: 100
+    max_depth: 10
+
+  xgboost:
+    n_estimators: 200
+    max_depth: 6
+    learning_rate: 0.1
+    subsample: 0.9
+    colsample_bytree: 0.9
 
 data:
   test_size: 0.2

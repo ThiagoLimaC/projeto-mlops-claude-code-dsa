@@ -1,8 +1,9 @@
 """Pre-processamento de dados do dsa_mlops_project (estagio ``prepare`` do DVC).
 
-Carrega o dataset Iris, le os parametros de ``params.yaml``, aplica um
-feature engineering basico (normalizacao opcional) e grava os conjuntos de
-treino e teste em ``data/processed/train.csv`` e ``data/processed/test.csv``.
+Le o dataset bruto de ``data/raw/iris.csv`` (versionado com DVC), aplica os
+parametros de ``params.yaml``, faz um feature engineering basico (normalizacao
+opcional) e grava os conjuntos de treino e teste em
+``data/processed/train.csv`` e ``data/processed/test.csv``.
 
 Exemplo:
     python src/preprocess.py
@@ -16,11 +17,11 @@ from pathlib import Path
 import joblib
 import pandas as pd
 import yaml
-from sklearn.datasets import load_iris
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 
 PARAMS_PATH = Path("params.yaml")
+RAW_DATA_PATH = Path("data/raw/iris.csv")
 PROCESSED_DATA_DIR = Path("data/processed")
 TRAIN_PATH = PROCESSED_DATA_DIR / "train.csv"
 TEST_PATH = PROCESSED_DATA_DIR / "test.csv"
@@ -69,16 +70,32 @@ def load_params(path: str | Path = PARAMS_PATH) -> PreprocessConfig:
     )
 
 
-def load_dataset() -> pd.DataFrame:
-    """Carrega o dataset Iris como um DataFrame rotulado.
+def load_raw_data(path: str | Path = RAW_DATA_PATH) -> pd.DataFrame:
+    """Le o dataset bruto do CSV e valida a presenca da coluna alvo.
+
+    Args:
+        path: Caminho do CSV bruto.
 
     Returns:
-        DataFrame com as 4 features originais e a coluna alvo ``target``
-        (codificada como inteiro: 0, 1, 2).
+        DataFrame com as features e a coluna alvo ``target``.
+
+    Raises:
+        FileNotFoundError: Se o CSV nao existir (rode ``dvc pull`` para baixa-lo
+            do remote ou gere o arquivo em ``data/raw``).
+        KeyError: Se a coluna alvo ``target`` nao estiver presente.
     """
-    dataset = load_iris(as_frame=True)
-    frame = dataset.frame.copy()
-    frame = frame.rename(columns={"target": TARGET_COLUMN})
+    path = Path(path)
+    if not path.exists():
+        raise FileNotFoundError(
+            f"Dataset bruto '{path}' nao encontrado. Rode `dvc pull` ou adicione "
+            "o arquivo em data/raw."
+        )
+
+    frame = pd.read_csv(path)
+    if TARGET_COLUMN not in frame.columns:
+        raise KeyError(
+            f"Coluna alvo '{TARGET_COLUMN}' ausente em {path}. Colunas: {list(frame.columns)}"
+        )
     return frame
 
 
@@ -151,7 +168,7 @@ def run(config: PreprocessConfig | None = None) -> tuple[Path, Path]:
     """
     config = config or load_params()
 
-    frame = load_dataset()
+    frame = load_raw_data()
     train_df, test_df = split_dataset(frame, config)
     train_df, test_df = engineer_features(train_df, test_df, config)
 
@@ -159,6 +176,7 @@ def run(config: PreprocessConfig | None = None) -> tuple[Path, Path]:
     train_df.to_csv(TRAIN_PATH, index=False)
     test_df.to_csv(TEST_PATH, index=False)
 
+    print(f"Fonte: {RAW_DATA_PATH} ({len(frame)} linhas)")
     print(f"Treino: {len(train_df)} linhas -> {TRAIN_PATH}")
     print(f"Teste:  {len(test_df)} linhas -> {TEST_PATH}")
     print(f"Normalizacao: {'ativada' if config.normalize else 'desativada'}")

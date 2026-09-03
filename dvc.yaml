@@ -2,11 +2,21 @@
 # Reproduza com: dvc repro   |   Visualize com: dvc dag
 
 stages:
+  validate:
+    cmd: python src/validate.py
+    deps:
+      - src/validate.py
+      - data/raw/iris.csv
+    outs:
+      - reports/validation.json:
+          cache: false
+
   prepare:
     cmd: python src/preprocess.py
     deps:
       - src/preprocess.py
       - data/raw
+      - reports/validation.json
     outs:
       - data/processed
 
